@@ -5,10 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -28,7 +25,7 @@
                 flex-wrap: wrap;
             }
             .form-div, .form-div-2 {
-                width: 50%;
+                width: 30%;
                 padding: 10px;
             }
             .form-div form input {
@@ -38,95 +35,35 @@
                 border-radius: 10px;
                 padding: 5px;
             }
-            textarea {
-                width: 100%;
-                border-radius: 10px;
-                border: 1px solid #1a202c;
-                padding: 5px;
-            }
-            .btn-select-img {
-                cursor: pointer;
-            }
-            .form-div-2 {
-                text-align: center;
-            }
             .error, .required {
                 color: red;
-            }
-            @media only screen and (max-width: 640px) {
-                .wrapper-container {
-                    padding: 0px;
-                    display: block;
-                    justify-content: space-around;
-                    flex-wrap: wrap;
-                }
-                .form-div, .form-div-2 {
-                    width: 100%;
-                    padding: 10px;
-                }
             }
         </style>
     </head>
     <body class="antialiased">
         <div class="g-gray-100 dark:bg-gray-900 wrapper-container">
             <div class="form-div">
-                <h3 style="text-align: center;">Form request</h3>
-                <form action="{{ route('request-file') }}" method="POST" enctype="multipart/form-data">
+                <h2 style="text-align: center;">Login</h2>
+                <form action="{{ route('login.post') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div>
-                        <label for="">Text <span class="required">*</span></label>
-                        <input name="text" type="text" value="{{ old('text') }}">
-                        <span class="error">{{ $errors->first('text') }}</span>
-                    </div>
-                    <div>
-                        <label for="">Email get file <span class="required">*</span></label>
+                        <label for="">Email <span class="required">*</span></label>
                         <input name="email" type="text" value="{{ old('email') }}">
                         <span class="error">{{ $errors->first('email') }}</span>
                     </div>
                     <div>
-                        <label for="">Image buy product <span class="required">*</span></label> 
-                        <input type="file" name="image_buy" style="display: none;" class="form-control {{($errors->first('image') != '') ? 'is-invalid' : ''}}" id="upload-image-buy">
-                        <input type="button" onclick="updateImage(1)" class="btn-select-img form-control {{($errors->first('image') != '') ? 'is-invalid' : ''}}" value="Click to select image">
-                        <div id="image_buy" style="width: 50%; margin-top: 10px;"></div>
-                        <span class="error">{{ $errors->first('image_buy') }}</span>
+                        <label for="">Password <span class="required">*</span></label>
+                        <input name="password" type="password">
+                        <span class="error">{{ $errors->first('password') }}</span>
                     </div>
-                    <div>
-                        <label for="">Image review shop:</label> 
-                        <input type="file" name="image_review" style="display: none;" class="form-control {{($errors->first('image') != '') ? 'is-invalid' : ''}}" id="upload-image-review">
-                        <input type="button" onclick="updateImage(2)" class="btn-select-img form-control {{($errors->first('image') != '') ? 'is-invalid' : ''}}" value="Click to select image">
-                        <div id="image_review" style="width: 50%; margin-top: 10px;"></div>
-                        <span class="error">{{ $errors->first('image_review') }}</span>
-                    </div>
-                    <div>
-                        <label for="">Note</label> 
-                        <textarea name="note" id="" cols="30" rows="10">{{ old('note') }}</textarea>
-                        <span class="error">{{ $errors->first('note') }}</span>
-                    </div>
-                    <div style="text-align: center;">
+                    <div style="text-align: center; margin-top: 20px;">
                         <button style="height: 50px; width: 200px; background: grey; color: #f7fafc">Submit</button>
                     </div>
                 </form>
-                <div>
-                    <h2>Note</h2>
-                    <p>- By default, the animals will be random, but you can customize them in the note field. Example: Dog and Cat</p>
-                    <p>- Please allow approximately 24 hours for us to complete it. Once it's done, we will send it to your email.</p>
-                    <p>- When you rate the shop 5 stars, you will receive an additional custom-designed image of your choice. Please provide detailed information about the image in the note field so that we can understand your preferences. Thank you!</p>
-                </div>
-            </div>
-            <div class="form-div-2">
-                <h3>Image example</h3>
-                <img style="width: 80%;" src="" alt="">
             </div>
         </div>
     </body>
-    @if(Session::has('success'))
-        <script>
-        toastr.success("{{ Session::get('success') }}");</script>
-    @endif
 
-    @if(Session::has('error'))
-        <script>toastr.error("{{ Session::get('error') }}");</script>
-    @endif
     <script>
         // Trigger input file image.
         function updateImage(type) {

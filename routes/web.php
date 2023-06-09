@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
@@ -18,4 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test', [Controller::class, 'test']);
+Route::get('login', [AdminController::class, 'login'])->name('login');
+Route::post('login', [AdminController::class, 'loginPost'])->name('login.post');
+
+Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'request'], function () {
+        Route::get('list', [AdminController::class, 'getListRequest'])->name('request.index');
+        Route::get('detail/{id}', [AdminController::class, 'detailRequest'])->name('request.detail');
+    });
+});
+
+Route::post('request-file', [Controller::class, 'requestFile'])->name('request-file');
